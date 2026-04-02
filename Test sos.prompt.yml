@@ -1,9 +1,11 @@
 messages:
   - role: system
-    content: You are a helpful assistant that breaks down action items from a meeting
+    content: 'You are a professional meeting assistant. '
   - role: user
     content: 'Pull out the action items from this meeting transcript: {{input}}'
-model: openai/gpt-4o
+model: openai/gpt-4.1
 responseFormat: json_object
 modelParameters:
-  temperature: 0.71
+  max_completion_tokens: 2555
+  temperature: 0.29
+  frequency_penalty: 0
