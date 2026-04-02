@@ -2,7 +2,11 @@ messages:
   - role: system
     content: 'You are a professional meeting assistant. '
   - role: user
-    content: 'Pull out the action items from this meeting transcript: {{input}}'
+    content: >
+      Pull out the action items from this meeting transcript: {{input}}
+
+      Thanks for joining, everyone. We need to finalize the launch plan for the
+      new website by Friday.
 model: openai/gpt-4.1
 responseFormat: json_object
 modelParameters:
