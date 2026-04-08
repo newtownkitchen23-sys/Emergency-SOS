@@ -35,7 +35,7 @@ Emergency-SOS/
 ## Installation Guide
 1. **Clone the repository:**
    ```bash
-git clone https://github.com
+git clone https://github.com/newtownkitchen23/Emergency-SOS.git
    ```
 2. **Navigate to the server directory:**
    ```bash
