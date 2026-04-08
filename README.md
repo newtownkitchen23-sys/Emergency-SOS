@@ -61,7 +61,7 @@ cd ../client
    ```
    For the client:
    ```bash
-   npm install
+  npm start
    ```
 
 ## API Endpoints
