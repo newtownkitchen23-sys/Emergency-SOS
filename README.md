@@ -55,7 +55,7 @@ Emergency-SOS/
    npm install
    ```
 6. **Run the application:**
-   For the server:
+   For the server: npm start
    ```bash
 cd ../client
    ```
