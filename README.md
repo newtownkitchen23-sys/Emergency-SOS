@@ -35,11 +35,11 @@ Emergency-SOS/
 ## Installation Guide
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/<username>/Emergency-SOS.git
+git clone https://github.com
    ```
 2. **Navigate to the server directory:**
    ```bash
-   cd Emergency-SOS/server
+ cd Emergency-SOS/server/Emergency-SOS
    ```
 3. **Install server dependencies:**
    ```bash
