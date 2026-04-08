@@ -80,7 +80,7 @@ cd ../client
 1. **Build the application:**
    ```bash
    cd client
-   npm start
+npm run build
    ```
 2. **Deploy the server:**
    Use a platform like Heroku, AWS, or DigitalOcean to deploy the server-side application. Follow the provider’s documentation for deployment steps.
