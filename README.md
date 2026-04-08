@@ -35,16 +35,17 @@ Emergency-SOS/
 ## Installation Guide
 1. **Clone the repository:**
    ```bash
-git clone https://github.com/newtownkitchen23/Emergency-SOS.git
-   ```
+
+   git clone https://github.com/newtownkitchen23/Emergency-SOS.git
+
 2. **Navigate to the server directory:**
    ```bash
- cd Emergency-SOS/server/Emergency-SOS
-   ```
+
+   cd Emergency-SOS/server
 3. **Install server dependencies:**
    ```bash
    npm install
-   ```
+   
 4. **Navigate to the client directory:**
    ```bash
    cd ../client
@@ -56,11 +57,11 @@ git clone https://github.com/newtownkitchen23/Emergency-SOS.git
 6. **Run the application:**
    For the server:
    ```bash
-   npm start
+cd ../client
    ```
    For the client:
    ```bash
-   npm start
+   npm install
    ```
 
 ## API Endpoints
