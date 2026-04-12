@@ -24,8 +24,8 @@ jobs:
       with:
         languages: java-kotlin
 
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v3
+    - name: Build with Gradle
+      run: ./gradlew assembleDebug
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
