@@ -10,10 +10,16 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          
-      # This fix handles the 12-second "Permission Denied" error
-      - name: Fix Permissions
-        run: chmod +x gradlew || true
+
+      # THIS FIXES ERROR 127: It creates the missing gradlew file
+      - name: Install Gradle Wrapper
+        run: gradle wrapper
 
       - name: Build APK
-        run: ./gradlew assembleDebug --stacktrace
+        run: ./gradlew assembleDebug
+
+      - name: Upload Demo APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: emergency-sos-apk
+          path: app/build/outputs/apk/debug/*.apk
