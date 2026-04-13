@@ -1,15 +1,19 @@
-name: CI Workflow
-
-on:
-  push:
-    branches: [ "main" ]
-
+name: Demo Build
+on: [push, workflow_dispatch]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Run a quick check
-        run: echo "Environment is ready!"
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Build APK
+        run: bash ./gradlew assembleDebug
+      - name: Upload Demo
+        uses: actions/upload-artifact@v4
+        with:
+          name: emergency-sos-apk
+          path: app/build/outputs/apk/debug/*.apk
