@@ -1,26 +1,26 @@
-name: Final Build Fix
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch: # Allows manual triggering
+name: Final_Fix_Build
+on: [push, workflow_dispatch]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Java
+      
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
           java-version: '17'
-          cache: 'gradle'
-      - name: Fix Permissions
-        run: chmod +x gradlew # Fixes "Permission Denied"
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug --no-daemon
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Fix Permissions and Build
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --stacktrace
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: App-Demo-Build
-          path: app/build/outputs/apk/debug/app-debug.apk
+          name: Emergency-SOS-Demo
+          path: "**/*.apk" # This finds the APK regardless of folder structure
