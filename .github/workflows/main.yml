@@ -1,29 +1,26 @@
-name: SOS_Final_Download
-on: [push, workflow_dispatch]
+name: Final Build Fix
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: # Allows manual triggering
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up JDK 17
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
           distribution: 'temurin'
-      
-      # This finds your project wherever it is hiding
-      - name: Locate and Build
-        run: |
-          BUILD_PATH=$(find . -name "build.gradle" -not -path "*/.*" | head -n 1)
-          PROJECT_ROOT=$(dirname "$BUILD_PATH")
-          echo "Building in: $PROJECT_ROOT"
-          cd "$PROJECT_ROOT"
-          gradle wrapper
-          chmod +x gradlew
-          ./gradlew assembleDebug
-
+          java-version: '17'
+          cache: 'gradle'
+      - name: Fix Permissions
+        run: chmod +x gradlew # Fixes "Permission Denied"
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug --no-daemon
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: emergency-sos-apk
-          path: "**/*.apk"
+          name: App-Demo-Build
+          path: app/build/outputs/apk/debug/app-debug.apk
