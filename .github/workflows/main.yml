@@ -10,10 +10,10 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+          
+      # This fix handles the 12-second "Permission Denied" error
+      - name: Fix Permissions
+        run: chmod +x gradlew || true
+
       - name: Build APK
-        run: bash ./gradlew assembleDebug
-      - name: Upload Demo
-        uses: actions/upload-artifact@v4
-        with:
-          name: emergency-sos-apk
-          path: app/build/outputs/apk/debug/*.apk
+        run: ./gradlew assembleDebug --stacktrace
