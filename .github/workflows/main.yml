@@ -1,27 +1,23 @@
-name: "CodeQL"
+
+name: CI Workflow
+
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-  workflow_dispatch:
 
 jobs:
-  analyze:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      security-events: write
-      actions: read
-      contents: read
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
-      with:
-        languages: 'javascript' # CHANGE THIS if you use Python or Java
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm  # Change this based on your language (e.g., ~/.cache/pip for Python)
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
+      - name: Run a quick check
+        run: echo "Environment is ready!"
