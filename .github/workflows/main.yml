@@ -1,5 +1,4 @@
 name: "CodeQL"
-
 on:
   push:
     branches: [ "main" ]
@@ -9,17 +8,11 @@ on:
 
 jobs:
   analyze:
-    name: Analyze
     runs-on: ubuntu-latest
     permissions:
+      security-events: write
       actions: read
       contents: read
-      security-events: write
-
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [ 'javascript' ]
 
     steps:
     - name: Checkout repository
@@ -28,11 +21,7 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
-        languages: ${{ matrix.language }}
-        queries: security-extended
-
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v3
+        languages: 'javascript' # CHANGE THIS if you use Python or Java
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
