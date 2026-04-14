@@ -1,4 +1,4 @@
-name: Node.js CI Build
+[![Node.js CI Build](https://github.com/newtownkitchen23-sys/Emergency-SOS/actions/workflows/azure-webapps-node.yml/badge.svg)](https://github.com/newtownkitchen23-sys/Emergency-SOS/actions/workflows/azure-webapps-node.yml)
 
 on:
   push:
