@@ -1,7 +1,32 @@
-- name: Build with Gradle
-  run: |
-    # Force fix permissions on the fly
-    find . -name "gradlew" -exec chmod +x {} +
-    # Find the right directory and build
-    PROJECT_DIR=$(find . -name "gradlew" -printf '%h' -quit)
-    cd "$PROJECT_DIR" && ./gradlew assembleDebug
+name: Final Demo Build
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Force Build
+        run: |
+          # 1. Find the project folder (even if nested)
+          GRADLEW_PATH=$(find . -name "gradlew" -print -quit)
+          if [ -z "$GRADLEW_PATH" ]; then echo "Error: No project files found!"; exit 1; fi
+          
+          # 2. Fix permissions and build
+          PROJ_DIR=$(dirname "$GRADLEW_PATH")
+          chmod +x "$GRADLEW_PATH"
+          cd "$PROJ_DIR"
+          ./gradlew assembleDebug --stacktrace
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-apk
+          path: "**/*.apk" # Searches everywhere for the finished file
