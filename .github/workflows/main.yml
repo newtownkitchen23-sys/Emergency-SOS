@@ -3,12 +3,11 @@ name: Build and Upload APK
 on:
   push:
     branches: [ main ]
-  workflow_dispatch: # Allows you to run it manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -20,16 +19,22 @@ jobs:
           java-version: '17'
           cache: 'gradle'
 
-      - name: Grant Execute Permission for Gradlew
-        run: chmod +x gradlew
+      - name: Build APK (Auto-Locate Project)
+        run: |
+          # Find the directory containing gradlew
+          GRADLE_DIR=$(find . -name "gradlew" -printf '%h' -quit)
+          if [ -z "$GRADLE_DIR" ]; then
+            echo "Error: gradlew not found in the repository. Please ensure your Android project is uploaded."
+            exit 1
+          fi
+          echo "Found Gradle in: $GRADLE_DIR"
+          cd "$GRADLE_DIR"
+          chmod +x gradlew
+          ./gradlew assembleDebug --stacktrace
 
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug --stacktrace
-
-      - name: Upload APK Artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug-apk
-          # This wildcard path works even if your app folder name is different
-          path: "**/build/outputs/apk/debug/*.apk"
+          name: app-debug
+          path: "**/*.apk"
           if-no-files-found: error
