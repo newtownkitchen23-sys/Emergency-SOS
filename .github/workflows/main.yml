@@ -1,32 +1,53 @@
-name: Final Demo Build
-on: [push, workflow_dispatch]
+name: Node.js Demo CI
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: 1. Checks out your code
+        uses: actions/checkout@v4
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
+      - name: 2. Installs Node.js 20 with npm caching
+        uses: actions/setup-node@v4
         with:
-          java-version: '17'
-          distribution: 'temurin'
+          node-version: 20
+          cache: 'npm'
 
-      - name: Force Build
+      - name: 3. Runs npm install at repo root
+        run: npm install
+
+      - name: 4. Runs npm install inside server/ only if it exists
         run: |
-          # 1. Find the project folder (even if nested)
-          GRADLEW_PATH=$(find . -name "gradlew" -print -quit)
-          if [ -z "$GRADLEW_PATH" ]; then echo "Error: No project files found!"; exit 1; fi
-          
-          # 2. Fix permissions and build
-          PROJ_DIR=$(dirname "$GRADLEW_PATH")
-          chmod +x "$GRADLEW_PATH"
-          cd "$PROJ_DIR"
-          ./gradlew assembleDebug --stacktrace
+          if [ -d "server" ]; then
+            cd server && npm install
+          else
+            echo "Server folder not found, skipping."
+          fi
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: demo-apk
-          path: "**/*.apk" # Searches everywhere for the finished file
+      - name: 5. Runs npm run build at root only if script exists
+        run: |
+          if npm run | grep -q "build"; then
+            npm run build
+          else
+            echo "No build script found at root, skipping."
+          fi
+
+      - name: 6. Runs npm run build in server/ only if it exists
+        run: |
+          if [ -d "server" ] && [ -f "server/package.json" ]; then
+            cd server
+            if npm run | grep -q "build"; then
+              npm run build
+            fi
+          else
+            echo "No server build required, skipping."
+          fi
+
+      - name: 7. Prints green
+        run: echo "✅ Success: All steps completed!"
