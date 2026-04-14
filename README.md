@@ -1,8 +1,8 @@
-[![Node.js CI](https://github.com)](https://github.com)
+[![Node.js CI Build](https://github.com)](https://github.com)
 
-# Emergency SOS Telemedicine App 🚑
+# Emergency-SOS 🚑
 
-The badge above confirms that our **CI/CD pipeline** is passing and the project is verified.
+A healthcare application designed to streamline emergency response and telemedicine services.
 
-## 🧱 Demo Status
-Every code commit is automatically tested and verified.
+### 🛠️ Build Status
+The badge at the top shows the real-time status of our automated testing. Every commit is automatically verified to ensure the code is stable and ready for deployment.
