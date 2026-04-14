@@ -1,40 +1,7 @@
-name: Build and Upload APK
-
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-          cache: 'gradle'
-
-      - name: Build APK (Auto-Locate Project)
-        run: |
-          # Find the directory containing gradlew
-          GRADLE_DIR=$(find . -name "gradlew" -printf '%h' -quit)
-          if [ -z "$GRADLE_DIR" ]; then
-            echo "Error: gradlew not found in the repository. Please ensure your Android project is uploaded."
-            exit 1
-          fi
-          echo "Found Gradle in: $GRADLE_DIR"
-          cd "$GRADLE_DIR"
-          chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-debug
-          path: "**/*.apk"
-          if-no-files-found: error
+- name: Build with Gradle
+  run: |
+    # Force fix permissions on the fly
+    find . -name "gradlew" -exec chmod +x {} +
+    # Find the right directory and build
+    PROJECT_DIR=$(find . -name "gradlew" -printf '%h' -quit)
+    cd "$PROJECT_DIR" && ./gradlew assembleDebug
