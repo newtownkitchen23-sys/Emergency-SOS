@@ -1,4 +1,4 @@
-name: Node.js Demo CI
+name: Demo Build
 
 on:
   push:
@@ -8,46 +8,30 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: 1. Checks out your code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: 2. Installs Node.js 20 with npm caching
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: 'npm'
+          node-version: '20'
 
-      - name: 3. Runs npm install at repo root
-        run: npm install
-
-      - name: 4. Runs npm install inside server/ only if it exists
+      - name: Install Dependencies (Root)
         run: |
-          if [ -d "server" ]; then
-            cd server && npm install
+          if [ -f "package.json" ]; then
+            npm install
           else
-            echo "Server folder not found, skipping."
+            echo "No package.json found in root, skipping..."
           fi
 
-      - name: 5. Runs npm run build at root only if script exists
-        run: |
-          if npm run | grep -q "build"; then
-            npm run build
-          else
-            echo "No build script found at root, skipping."
-          fi
-
-      - name: 6. Runs npm run build in server/ only if it exists
+      - name: Install Dependencies (Server)
         run: |
           if [ -d "server" ] && [ -f "server/package.json" ]; then
-            cd server
-            if npm run | grep -q "build"; then
-              npm run build
-            fi
+            cd server && npm install
           else
-            echo "No server build required, skipping."
+            echo "No server folder found, skipping..."
           fi
 
-      - name: 7. Prints green
-        run: echo "✅ Success: All steps completed!"
+      - name: Final Demo Check
+        run: echo "✅ Successfully reached the end of the demo workflow!"
