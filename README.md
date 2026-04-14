@@ -7,15 +7,9 @@ A healthcare application designed to streamline emergency response and telemedic
 ## 🛠️ Build Status
 The badge at the top shows the real-time status of our automated testing. Every commit is automatically verified to ensure the code is stable.
 
-## 🚀 Getting Started
+## 🚀 Installation
 
-Follow these steps to get the project running on your local machine.
-
-### Prerequisites
-* **Node.js** (v18 or higher recommended)
-* **npm** (comes with Node.js)
-
-### Installation
+Follow these steps to get the project running on your local machine:
 
 1. **Clone the repository**
    ```bash
