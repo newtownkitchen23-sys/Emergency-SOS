@@ -2,12 +2,7 @@
 
 # Emergency SOS Telemedicine App 🚑
 
-This project is a full-stack healthcare application. The badge above confirms that our **GitHub Actions CI/CD** pipeline is passing and the project is ready for deployment.
-
-## 🛠️ Tech Stack
-* **Frontend:** React.js
-* **Backend:** Node.js / Express
-* **Automation:** GitHub Actions (Node 20)
+The badge above confirms that our **CI/CD pipeline** is passing and the project is verified.
 
 ## ✅ Demo Status
-The green badge proves that every code commit is automatically tested and verified.
+Every code commit is automatically tested and verified.
