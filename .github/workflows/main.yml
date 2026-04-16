@@ -1,9 +1,5 @@
-name: Demo Build
-
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
+name: Build Android APK
+on: [push, workflow_dispatch]
 
 jobs:
   build:
@@ -12,26 +8,20 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Java
+        uses: actions/setup-java@v4
         with:
-          node-version: '20'
+          distribution: 'zulu'
+          java-version: '17'
+          cache: 'gradle'
 
-      - name: Install Dependencies (Root)
+      - name: Build Release APK
         run: |
-          if [ -f "package.json" ]; then
-            npm install
-          else
-            echo "No package.json found in root, skipping..."
-          fi
+          chmod +x ./gradlew
+          ./gradlew assembleRelease
 
-      - name: Install Dependencies (Server)
-        run: |
-          if [ -d "server" ] && [ -f "server/package.json" ]; then
-            cd server && npm install
-          else
-            echo "No server folder found, skipping..."
-          fi
-
-      - name: Final Demo Check
-        run: echo "✅ Successfully reached the end of the demo workflow!"
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-apk
+          path: app/build/outputs/apk/release/app-release.apk
