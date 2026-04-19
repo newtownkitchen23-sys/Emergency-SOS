@@ -1,0 +1,12 @@
+{
+  "name": "emergency-sos",
+  "version": "1.0.0",
+  "description": "Healthcare application for emergency response",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "author": "",
+  "license": "ISC"
+}
