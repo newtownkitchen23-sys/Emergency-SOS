@@ -1,10 +1,10 @@
-[![Build Status](https://github.com)](https://github.com)
-
 # Emergency-SOS 🚑
+
+[![Build Status](https://github.com)](https://github.com)
 
 A healthcare application designed to streamline emergency response and telemedicine services.
 
-## 🚀 Installation
+## 🔗 Installation
 
 1. **Clone the repository**
    ```bash
