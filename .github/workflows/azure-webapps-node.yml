@@ -19,11 +19,20 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build APK with System Gradle
+      - name: Build APK
         run: |
-          # This finds the directory with your build.gradle file and runs the build there
-          BUILD_DIR=$(find . -name "build.gradle" -not -path "*/node_modules/*" | head -n 1 | xargs dirname)
-          cd "$BUILD_DIR"
+          # 1. Find where the build.gradle file is
+          GRADLE_FILE=$(find . -name "build.gradle" -not -path "*/node_modules/*" | head -n 1)
+          if [ -z "$GRADLE_FILE" ]; then
+            echo "ERROR: No build.gradle found. Please ensure your code is uploaded."
+            exit 1
+          fi
+          
+          # 2. Move to that directory
+          PROJECT_ROOT=$(dirname "$GRADLE_FILE")
+          cd "$PROJECT_ROOT"
+          
+          # 3. Use system gradle to build
           gradle assembleDebug
 
       - name: Upload APK Artifact
