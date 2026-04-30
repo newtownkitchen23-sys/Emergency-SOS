@@ -1,1 +1,5 @@
-rootProject.name = "Emergency-SOS"
+name: Emergency-SOS
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch: # This adds the "Run workflow" button
