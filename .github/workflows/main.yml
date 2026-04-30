@@ -1,4 +1,4 @@
-name: Build Android APK
+name: Build APK
 
 on:
   push:
@@ -10,31 +10,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Setup Java 17
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
           distribution: 'temurin'
+          java-version: '17'
+          cache: gradle
 
-      - name: Build APK (Force)
-        run: |
-          # Find the folder containing the Android Manifest
-          MANIFEST_PATH=$(find . -name "AndroidManifest.xml" -not -path "*/build/*" -not -path "*/debug/*" | head -n 1)
-          APP_DIR=$(dirname $(dirname "$MANIFEST_PATH"))
-          cd "$APP_DIR"
-          # Grant permissions if gradlew exists, otherwise use system gradle
-          if [ -f "./gradlew" ]; then
-            chmod +x gradlew
-            ./gradlew assembleDebug
-          else
-            gradle assembleDebug
-          fi
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
 
-      - name: Upload APK Artifact
+      - name: Accept licenses
+        run: yes | sdkmanager --licenses
+
+      - name: Give permission
+        run: chmod +x ./gradlew
+
+      - name: Clean project
+        run: ./gradlew clean
+
+      - name: Build APK
+        run: ./gradlew assembleDebug --stacktrace
+
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: emergency-sos-app
-          path: "**/*.apk"
+          name: app-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
